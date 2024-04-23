@@ -52,14 +52,16 @@ class DbTodoConnection {
     return getAllTodos;
   }
   
-  addTodo({required TodoModel todoModel})async{
+  Future<bool> addTodo({required TodoModel todoModel})async{
     var db = await getDB();
-    db.insert(TABLE_NAME, todoModel.toMap());
+    var checkDb = await db.insert(TABLE_NAME, todoModel.toMap());
+    return checkDb>0;
   }
   
-  updateTodo({required TodoModel updateTodoModel})async {
+  Future<bool> updateTodo({required TodoModel updateTodoModel})async {
     var db = await getDB();
-    db.update(TABLE_NAME, updateTodoModel.toMap(), where: '$TABLE_COLUMN_ID =?', whereArgs: ['${updateTodoModel.id}']);
+    var check = await db.update(TABLE_NAME, updateTodoModel.toMap(), where: '$TABLE_COLUMN_ID =?', whereArgs: ['${updateTodoModel.id}']);
+    return check>0;
   }
   
   
