@@ -1,3 +1,4 @@
+import 'package:bloc_db_model/bloc/todo_bloc.dart';
 import 'package:bloc_db_model/bloc/todo_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,13 +10,13 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Bloc db model'),),
-      body: BlocBuilder(
+      body: BlocBuilder<TodoBloc,TodoState>(
           builder: (_, state) {
         if(state is LoadingTodoState){
           return const Center(child: CircularProgressIndicator());
         }
         if(state is FailureTodoState){
-          return const Center(child: Text('No Todos'));
+          return Center(child: Text(state.errorMsg));
         }
         
         if(state is SuccessfulTodoState ){
@@ -27,7 +28,7 @@ class HomePage extends StatelessWidget {
                   title: Text(state.allTodos[index].title),
                   subtitle: Text(state.allTodos[index].desc),
                   trailing: IconButton(
-                    icon: Icon(Icons.remove),
+                    icon: const Icon(Icons.remove),
                     onPressed: () {
                       
                     },

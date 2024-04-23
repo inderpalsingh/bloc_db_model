@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
   runApp(BlocProvider(
-    create: (context) => TodoBloc(db: DbTodoConnection.db),
+      create: (context) => TodoBloc(db: DbTodoConnection.db),
       child: const MyApp()));
 }
 
