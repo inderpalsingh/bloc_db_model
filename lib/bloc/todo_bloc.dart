@@ -11,6 +11,16 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   
   TodoBloc({required this.db}) : super(InitialTodoState()) {
     
+    
+    on<InitialTodoDB>((event, emit)async {
+      emit(LoadingTodoState());
+      List<TodoModel> mData = await db.fetchAllTodoFromDb();
+      emit(SuccessfulTodoState(allTodos: mData));
+      
+    });
+    
+    
+    
     on<AddTodoDB>((event, emit)async {
       emit(LoadingTodoState());
       bool check = await db.addTodo(todoModel: event.todoModel);

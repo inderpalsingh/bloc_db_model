@@ -1,10 +1,13 @@
 import 'package:bloc_db_model/bloc/todo_bloc.dart';
+import 'package:bloc_db_model/bloc/todo_event.dart';
 import 'package:bloc_db_model/bloc/todo_state.dart';
+import 'package:bloc_db_model/pages/second_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -24,14 +27,18 @@ class HomePage extends StatelessWidget {
             itemCount: state.allTodos.length,
               itemBuilder: (_, index) {
                 return ListTile(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => SecondPage(isUpdate: true, todoModel: state.allTodos[index])));
+                  },
                   leading: CircleAvatar(child: Text('${index + 1}')),
                   title: Text(state.allTodos[index].title),
                   subtitle: Text(state.allTodos[index].desc),
                   trailing: IconButton(
-                    icon: const Icon(Icons.remove),
+                    icon: const Icon(Icons.delete),
                     onPressed: () {
-                      
+                      context.read<TodoBloc>().add(DeleteTodoDB(id: state.allTodos[index].id));
                     },
+                    
                   ),
                 );
               },
@@ -39,6 +46,12 @@ class HomePage extends StatelessWidget {
         }
         return Container();
       }),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => SecondPage()));
+        },
+        child: Icon(Icons.add),
+      ),
     );
   }
 }
