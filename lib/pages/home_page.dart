@@ -5,10 +5,26 @@ import 'package:bloc_db_model/pages/second_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
 
+
+
+
+class _HomePageState extends State<HomePage> {
+  
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context.read<TodoBloc>().add(InitialTodoDB());
+  }
+  
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
